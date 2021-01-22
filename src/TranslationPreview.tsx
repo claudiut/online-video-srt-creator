@@ -13,11 +13,17 @@ const TranslationPreview = ({ player, translations }: Props) => {
 
     useEffect(() => {
         if (player) {
-            // TODO: unsub the previous observer
-            player.onTimeUpdate((currentTime) => {
-                const crtTranslation = getTranslationForTime(translations, currentTime);
-                setPreviewedTranslation(crtTranslation);
+            const subscription = player.currentTime$.subscribe({
+                next(currentTime: number) {
+                    console.log('currentTime', currentTime);
+                    const crtTranslation = getTranslationForTime(translations, currentTime);
+                    setPreviewedTranslation(crtTranslation);
+                }
             });
+
+            return () => {
+                subscription.unsubscribe();
+            }
         }
     }, [player, translations])
 

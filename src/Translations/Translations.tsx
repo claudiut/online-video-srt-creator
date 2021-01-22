@@ -36,6 +36,13 @@ const Translations = ({ translations, onAddTranslation }: Props) => {
                     Add Translation
                 </button>
             </div>
+            <div className="pa3">
+                <div>Help</div>
+                <ol>
+                    <li>Press Space to play/pause the video</li>
+                    <li>Press Enter to set the start/end time of translation to current video position</li>
+                </ol>
+            </div>
         </div>
     )
 };

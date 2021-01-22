@@ -40,11 +40,11 @@ function App() {
                     <input type="text" placeholder="Video URL" className="w-100" onChange={handleUrlChange} />
                 </div>
                 <div className="flex">
-                    <div className="w-50">
+                    <div>
                         {url && <VideoPlayer url={url} setPlayer={setPlayer} />}
                         <TranslationPreview player={player} translations={translations} />
                     </div>
-                    <div className="w-50">
+                    <div className="w-100 pa2">
                         <VideoPlayerContext.Provider value={player}>
                             <Translations translations={translations} onAddTranslation={handleAddTranslation} />
                         </VideoPlayerContext.Provider>

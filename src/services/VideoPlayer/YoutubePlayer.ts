@@ -1,4 +1,6 @@
+import { Observable } from 'rxjs';
 import YTPlayer from 'yt-player';
+import { createVideoPlayerCurrentTimeObservable } from '../helper';
 
 import IVideoPlayer from './IVideoPlayer';
 
@@ -8,6 +10,8 @@ const parseYoutubeIdFromUrl = (url: string): string => {
 }
 
 export default class YouTubePlayer implements IVideoPlayer {
+  public currentTime$: Observable<number>;
+
   private player: YTPlayer;
 
   constructor(player: YTPlayer, url: string) {
@@ -17,10 +21,16 @@ export default class YouTubePlayer implements IVideoPlayer {
     if (videoId) {
       this.player.load(videoId);
     }
+
+    this.currentTime$ = createVideoPlayerCurrentTimeObservable(this);
   }
 
   play() {
     this.player.play();
+  }
+
+  isPlaying() {
+    return this.player.getState() === 'playing';
   }
 
   pause() {
@@ -31,12 +41,6 @@ export default class YouTubePlayer implements IVideoPlayer {
     return this.player.getCurrentTime();
   }
 
-  // TODO: subscribe to stream
-  onTimeUpdate(currentTimeCallback: (currentTime: number) => void): void {
-    
-  }
-
-  // TODO and unsub ALL from stream
   dispose() {
     this.player.destroy();
   }
