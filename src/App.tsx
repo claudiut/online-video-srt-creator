@@ -13,7 +13,7 @@ import usePersistentStorageEffect from './hooks/usePersistentStorageEffect';
 // TODO: use DI to be able to easily mock services
 function App() {
     const [player, setPlayer] = useState<IVideoPlayer | null>(null);
-    const [url, setUrl] = useState('https://www.youtube.com/watch?v=n0YVQ8JB7AU');
+    const [url, setUrl] = useState('');
     // TODO: avoid prop drilling for translations in Translations component;
     //       use streams for untimed translations, etc?
     const [translations, setTranslations] = useState<TranslationLine[]>([]);
