@@ -1,6 +1,6 @@
 ### Online video SRT creator
 1. Enter your video url
-2. Create or import your subtitles from a verses, lyrics, etc.
+2. Import your subtitles from a verses, lyrics, etc. (split them by line or paragraph)
 3. While the video is playing, press Enter to add timing for your subtitles
 4. Download your SRT file!
 
