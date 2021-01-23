@@ -25,16 +25,20 @@ export default class YouTubePlayer implements IVideoPlayer {
     this.currentTime$ = createVideoPlayerCurrentTimeObservable(this);
   }
 
-  play() {
-    this.player.play();
-  }
-
   isPlaying() {
     return this.player.getState() === 'playing';
   }
 
-  pause() {
-    this.player.pause()
+  togglePlay() {
+    this.isPlaying() ? this.player.pause() : this.player.play();
+  }
+
+  seekPrevious() {
+    this.player.seek(this.player.getCurrentTime() - 5);
+  }
+
+  seekNext() {
+    this.player.seek(this.player.getCurrentTime() + 5);
   }
 
   getCurrentTime(): number {

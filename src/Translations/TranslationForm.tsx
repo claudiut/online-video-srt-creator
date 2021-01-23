@@ -1,36 +1,43 @@
-import { FormEvent, forwardRef, Ref, useState } from "react";
+import { ChangeEvent, FormEvent, forwardRef, Ref, useState } from "react";
+import { BYPASS_SHORTCUTS_CLASS, SPLIT_CONTENT_TYPES } from "../services/helper";
 
 type Props = {
-    onSave: (content: string, multiple?: boolean) => void
+    onSave: (content: string, splitType: string) => void
     onCancel: () => void
 }
 
 const TranslationForm = forwardRef(
     ({ onSave, onCancel }: Props, inputRef: Ref<HTMLTextAreaElement>) => {
         const [content, setContent] = useState<string>('');
+        const [splitType, setSplitType] = useState<string>('');
 
-        const save = (content: string, multiple = false) => {
+        const save = (content: string, type: string) => {
             if (!content) {
                 return;
             }
-            onSave(content, multiple);
+            onSave(content, type);
             setContent('');
+            setSplitType(SPLIT_CONTENT_TYPES.LINE);
         };
 
         const handleSubmit = (event: FormEvent) => {
             event.preventDefault();
-            save(content);
+            save(content, splitType);
+        }
+
+        const handleSelectSplitType = (event: ChangeEvent<HTMLSelectElement>) => {
+            setSplitType(event.target.value);
         }
 
         return (
             <form onSubmit={handleSubmit}>
                 <div>
                     <textarea
+                        rows={30}
                         value={content}
-                        className="w-100"
+                        className={`w-100 ${BYPASS_SHORTCUTS_CLASS}`}
                         onChange={({ target: { value }} )=> setContent(value)}
                         ref={inputRef}
-                        rows={3}
                     ></textarea>
                 </div>
                 <div className="flex justify-between">
@@ -38,7 +45,14 @@ const TranslationForm = forwardRef(
                         <button type="reset" onClick={onCancel}>Cancel</button>
                     </div>
                     <div>
-                        <button type="button" onClick={() => save(content, true)}>Save multiple</button>
+                        Split by
+                        <select value={splitType} onChange={handleSelectSplitType}>
+                        {
+                            Object.values(SPLIT_CONTENT_TYPES).map(v => (
+                                <option key={v} value={v}>{v}</option>
+                            ))
+                        }
+                        </select>
                         <button type="submit">Save</button>
                     </div>
                 </div>

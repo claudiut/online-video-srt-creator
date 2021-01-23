@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getTranslationForTime } from "./services/helper";
+import { getLatestTranslationForTime } from "./services/helper";
 import TranslationLine from "./services/Translation/TranslationLine";
 import IVideoPlayer from "./services/VideoPlayer/IVideoPlayer";
 
@@ -15,8 +15,7 @@ const TranslationPreview = ({ player, translations }: Props) => {
         if (player) {
             const subscription = player.currentTime$.subscribe({
                 next(currentTime: number) {
-                    console.log('currentTime', currentTime);
-                    const crtTranslation = getTranslationForTime(translations, currentTime);
+                    const crtTranslation = getLatestTranslationForTime(translations, currentTime);
                     setPreviewedTranslation(crtTranslation);
                 }
             });
@@ -27,7 +26,7 @@ const TranslationPreview = ({ player, translations }: Props) => {
         }
     }, [player, translations])
 
-    return <div>{previewedTranslation?.getContent()}</div>
+    return <div className="tc pa2 f4">{previewedTranslation?.getContent()}</div>
 };
 
 export default TranslationPreview;
