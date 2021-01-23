@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import TranslationLine from "../services/Translation/TranslationLine";
+import TranslationLineSerializer from "../services/Translation/TranslationLineSerializer";
 import TranslationForm from "./TranslationForm";
 import TranslationList from "./TranslationList";
 
@@ -24,6 +25,19 @@ const Translations = ({ translations, onAddTranslation, onRemoveTranslation, onU
         onAddTranslation(content, splitType);
         setShowAddForm(false);
     };
+
+    const handleDownload = () => {
+        const elem = document.createElement('a');
+        const srt = TranslationLineSerializer.toSrt(translations);
+        elem.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(srt));
+        const filename = `${translations[0].getContent().split('\n')[0]}.srt`;
+        elem.setAttribute('download', filename);
+        elem.style.display = 'none';
+        document.body.appendChild(elem);
+
+        elem.click();
+        document.body.removeChild(elem);
+    }
 
     return (
         <div>
@@ -54,6 +68,7 @@ const Translations = ({ translations, onAddTranslation, onRemoveTranslation, onU
                     <li>Press Enter to set the start/end time of translation to current video position</li>
                 </ol>
             </div>
+            <div><button onClick={handleDownload}>DOWNLOAD</button></div>
         </div>
     )
 };
