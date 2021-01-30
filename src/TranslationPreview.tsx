@@ -26,7 +26,11 @@ const TranslationPreview = ({ player, translations }: Props) => {
         }
     }, [player, translations])
 
-    return <div className="tc pa2 f4">{previewedTranslation?.getContent()}</div>
+    return (
+        <div className="tc pa2 f4">
+            <span className="pre">{previewedTranslation?.getContent()}</span>
+        </div>
+    );
 };
 
 export default TranslationPreview;

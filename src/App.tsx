@@ -57,10 +57,12 @@ function App() {
                 <div className="flex">
                     {
                         url
-                        ?  <div>
+                        ?  (
+                            <div>
                                 <VideoPlayer url={url} setPlayer={setPlayer} />
                                 <TranslationPreview player={player} translations={translations} />
-                        </div>
+                            </div>
+                        )
                         : <div className="flex justify-center items-center tc pa2">
                             Please enter a video URL in the text field above
                         </div>

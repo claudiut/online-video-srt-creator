@@ -1,4 +1,4 @@
-import { replaceWrongCharacters } from "../helper";
+import { normalizeText } from "../helper";
 
 export default class TranslationLine {
   private content: string = '';
@@ -10,7 +10,7 @@ export default class TranslationLine {
   }
 
   setContent(content: string): void {
-    this.content = replaceWrongCharacters(content);
+    this.content = normalizeText(content);
   }
 
   getContent(): string {
@@ -29,8 +29,11 @@ export default class TranslationLine {
     this.endTime = endTime;
   }
 
-  removeTime(): void {
+  removeStartTime(): void {
     this.startTime = undefined;
+  }
+
+  removeEndTime(): void {
     this.endTime = undefined;
   }
 

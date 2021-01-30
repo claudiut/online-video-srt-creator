@@ -16,7 +16,11 @@ const VideoPlayer = ({ url, setPlayer }: Props) => {
         setPlayer(new YouTubePlayer(new YTPlayer(`#${containerId}`), url));
     }, [url, setPlayer]);
     
-    return <div id={containerId}></div>
+    return (
+        <div id="player-wrapper">
+            <div id={containerId}></div>
+        </div>
+    );
 };
 
 export default VideoPlayer;

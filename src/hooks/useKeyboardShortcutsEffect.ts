@@ -5,7 +5,7 @@ import { BYPASS_SHORTCUTS_CLASS } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
 
 const shortcutBypassed = (event: KeyboardEvent) => {
-  const className = (event.target as HTMLElement).className;
+  const { className } = (event.target as HTMLElement);
   return className && className.includes(BYPASS_SHORTCUTS_CLASS);
 }
 
@@ -34,6 +34,9 @@ const normalizeStartTimeBasedOnPrevious = (
   }
 };
 
+type ShortcutEvent = 'keydown' | 'click';
+type ShortcutHandler = (e: KeyboardEvent | MouseEvent) => void;
+
 const useKeyboardShortcutsEffect = (
   player: IVideoPlayer | null,
   translations: TranslationLine[],
@@ -45,54 +48,74 @@ const useKeyboardShortcutsEffect = (
     }
 
     const listeners = {
-        space: (event: KeyboardEvent) => {
-          if (!shortcutBypassed(event) && event.key === ' ') {
-            event.preventDefault();
-            player.togglePlay();
-          }
-        },
-        leftArrow: (event: KeyboardEvent) => {
-          if (!shortcutBypassed(event) && event.key === 'ArrowLeft') {
-            event.preventDefault();
-            player.seekPrevious();
-          }
-        },
-        rightArrow: (event: KeyboardEvent) => {
-          if (!shortcutBypassed(event) && event.key === 'ArrowRight') {
-            event.preventDefault();
-            player.seekNext();
-          }
-        },
-        enter: (event: KeyboardEvent) => {
-          if (!shortcutBypassed(event) && event.key === 'Enter') {
-            const playerCurrentTime = player.getCurrentTime();
-            event.preventDefault();
-
-            const firstUntimedIndex = firstUntimedTranslationIndex(translations);
-            if (firstUntimedIndex === -1) {
-              return;
+        space: {
+          handler: (event: KeyboardEvent) => {
+            if (!shortcutBypassed(event) && event.key === ' ') {
+              event.preventDefault();
+              player.togglePlay();
             }
-            const firstUntimed = translations[firstUntimedIndex];
-            if (firstUntimed.getStartTime() === undefined) {
-              firstUntimed.setStartTime(playerCurrentTime);
-              normalizeStartTimeBasedOnPrevious(translations, firstUntimedIndex);
-            } else if (firstUntimed.getEndTime() === undefined) {
-              firstUntimed.setEndTime(playerCurrentTime);
+          },
+          type: 'keydown',
+        },
+        leftArrow: {
+          handler: (event: KeyboardEvent) => {
+            if (!shortcutBypassed(event) && event.key === 'ArrowLeft') {
+              event.preventDefault();
+              player.seekPrevious();
             }
+          },
+          type: 'keydown',
+        },
+        rightArrow: {
+          handler: (event: KeyboardEvent) => {
+            if (!shortcutBypassed(event) && event.key === 'ArrowRight') {
+              event.preventDefault();
+              player.seekNext();
+            }
+          },
+          type: 'keydown',
+        },
+        enter: {
+          handler: (event: KeyboardEvent) => {
+            if (!shortcutBypassed(event) && event.key === 'Enter') {
+              const playerCurrentTime = player.getCurrentTime();
+              event.preventDefault();
 
-            setTranslations([...translations])
-          }
-        }
+              const firstUntimedIndex = firstUntimedTranslationIndex(translations);
+              if (firstUntimedIndex === -1) {
+                return;
+              }
+              const firstUntimed = translations[firstUntimedIndex];
+              if (firstUntimed.getStartTime() === undefined) {
+                firstUntimed.setStartTime(playerCurrentTime);
+                normalizeStartTimeBasedOnPrevious(translations, firstUntimedIndex);
+              } else if (firstUntimed.getEndTime() === undefined) {
+                firstUntimed.setEndTime(playerCurrentTime);
+              }
+
+              setTranslations([...translations])
+            }
+          },
+          type: 'keydown',
+        },
       };
       const listenerOptions = {capture: true};
 
       Object.values(listeners).forEach((listener) => {
-        document.addEventListener('keydown', listener, listenerOptions);
+        document.addEventListener(
+          listener.type as ShortcutEvent, 
+          listener.handler as ShortcutHandler,
+          listenerOptions
+        );
       });
 
       return () => {
         Object.values(listeners).forEach((listener) => {
-          document.removeEventListener('keydown', listener, listenerOptions);
+          document.removeEventListener(
+            listener.type as ShortcutEvent,
+            listener.handler as ShortcutHandler,
+            listenerOptions
+          );
         })
       };
   }, [player, translations, setTranslations]);

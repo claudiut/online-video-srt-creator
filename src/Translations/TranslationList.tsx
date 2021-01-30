@@ -8,8 +8,8 @@ type Props = {
 }
 
 const TranslationList = ({ translations, onRemove, onUpdate }: Props) => {
-    const handleResetTime = (t: TranslationLine) => {
-        t.removeTime();
+    const handleResetTime = (t: TranslationLine, resetStart: boolean = true) => {
+        resetStart ? t.removeStartTime() : t.removeEndTime();
         onUpdate(t);
     };
 
@@ -23,13 +23,14 @@ const TranslationList = ({ translations, onRemove, onUpdate }: Props) => {
             {
                 translations.map((t, index) => (
                     <div className="translation-line flex" key={index}>
-                        <div className="flex w-100">
+                        <div className="flex w-100 pb2 mb1">
                             <div className="w-25">{t.getStartTime() || '-'}</div>
                             <div className="w-25">{t.getEndTime() || '-'}</div>
-                            <div className="w-50">{t.getContent()}</div>
+                            <div className="w-50"><span className="pre">{t.getContent()}</span></div>
                         </div>
                         <div className="flex items-center">
-                            <button onClick={() => handleResetTime(t)}>Reset</button>
+                            <button onClick={() => handleResetTime(t)}>ResetStart</button>
+                            <button onClick={() => handleResetTime(t, false)}>ResetEnd</button>
                             <button onClick={() => onRemove(t)}>Delete</button>
                         </div>
                     </div>
