@@ -48,4 +48,12 @@ export default class TranslationLine {
   isTimedFor(time: number): boolean {
     return this.isTimed() && time >= (this.startTime as number) && time < (this.endTime as number);
   }
+
+  hasOnlyStart(): boolean {
+    return this.getEndTime() === undefined && this.getStartTime() !== undefined
+  }
+
+  startsBeforeOrAt(time: number): boolean {
+    return (this.getStartTime() as number) <= time;
+  }
 }

@@ -68,8 +68,8 @@ const Translations = ({ translations, onAddTranslation, onRemoveTranslation, onU
                     <li>Press Enter to set the start/end time of translation to current video position</li>
                 </ol>
             </div>
-            <div>
-                {translations.length > 0 && <button onClick={handleDownload}>DOWNLOAD</button>}
+            <div className="tc">
+                {translations.length > 0 && <button onClick={handleDownload}>Download<br />⬇</button>}
             </div>
         </div>
     )

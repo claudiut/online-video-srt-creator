@@ -15,6 +15,7 @@ const TranslationPreview = ({ player, translations }: Props) => {
         if (player) {
             const subscription = player.currentTime$.subscribe({
                 next(currentTime: number) {
+                    // TODO: optimize
                     const crtTranslation = getLatestTranslationForTime(translations, currentTime);
                     setPreviewedTranslation(crtTranslation);
                 }

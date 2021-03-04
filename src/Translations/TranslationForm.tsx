@@ -9,7 +9,7 @@ type Props = {
 const TranslationForm = forwardRef(
     ({ onSave, onCancel }: Props, inputRef: Ref<HTMLTextAreaElement>) => {
         const [content, setContent] = useState<string>('');
-        const [splitType, setSplitType] = useState<string>('');
+        const [splitType, setSplitType] = useState<string>(SPLIT_CONTENT_TYPES.NONE);
 
         const save = (content: string, type: string) => {
             if (!content) {
@@ -17,7 +17,6 @@ const TranslationForm = forwardRef(
             }
             onSave(content, type);
             setContent('');
-            setSplitType(SPLIT_CONTENT_TYPES.LINE);
         };
 
         const handleSubmit = (event: FormEvent) => {

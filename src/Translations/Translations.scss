@@ -1,3 +1,9 @@
-.translation-line:hover {
-    background-color: lightgray;
+.translation-line {
+    &.selected {
+        background-color: #9acd32;
+    }
+
+    &:hover {
+        background-color: #eaeaea;
+    }
 }

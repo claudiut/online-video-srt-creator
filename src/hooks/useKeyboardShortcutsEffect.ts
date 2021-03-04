@@ -14,7 +14,7 @@ const firstUntimedTranslationIndex = (translations: TranslationLine[]): number =
 );
 
 // if start time is very close to the previrous translation's end time,
-// join them for smooth transitions
+// join them for smooth transitions (+1ms)
 const normalizeStartTimeBasedOnPrevious = (
   translations: TranslationLine[],
   currentTrIndex: number
@@ -28,9 +28,9 @@ const normalizeStartTimeBasedOnPrevious = (
   if (
     currentTr.getStartTime()
     && prevTr.getEndTime()
-    && ((currentTr.getStartTime() as number) - (prevTr.getEndTime() as number) < 0.5)
+    && ((currentTr.getStartTime() as number) - (prevTr.getEndTime() as number) < 0.2)
   ) {
-    currentTr.setStartTime(prevTr.getEndTime() as number);
+    currentTr.setStartTime(prevTr.getEndTime() as number + 0.001);
   }
 };
 
@@ -44,7 +44,7 @@ const useKeyboardShortcutsEffect = (
 ) => {
   useEffect(() => {
     if (!player) {
-      return;
+    return;
     }
 
     const listeners = {

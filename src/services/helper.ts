@@ -11,30 +11,26 @@ export const splitParagraphs = (content: string): string[] => {
   return content.split(/[\n\r]{2,}/);
 }
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
-
 const replacements = [
   ['ã', 'ă'],
   ['þ', 'ț'],
   ['­', '-'],
+  [/\s+/g, ' '],
+  [/-{2,}/g, '-'],
   [/\bcaci\b/g, 'căci'],
   [/\bCaci\b/g, 'Căci']
 ];
 export const normalizeText = (text: string): string => {
-  let str = text.trim();
-  Object.values(replacements).forEach(([key, value]) => str = str.replaceAll(key, value as string));
+  Object.values(replacements).forEach(([key, value]) => text = text.replaceAll(key, value as string));
 
-  const capitalized = splitLines(str).map(strLine => capitalize(strLine.trim())).join('\n');
-
-  return capitalized;
+  return splitLines(text).map(textLine => textLine.trim()).join('\n');
 };
 
 // get the translation with timing set around the given time
 // OR the first that starts at/after the given time
 export const getLatestTranslationForTime = (translations: TranslationLine[], time: number): TranslationLine | undefined => {
   return translations.find(t => (
-    t.isTimedFor(time)
-    || (t.getStartTime() !== undefined && t.getEndTime() === undefined && time >= (t.getStartTime() as number))
+    t.isTimedFor(time) || (t.hasOnlyStart() && t.startsBeforeOrAt(time))
   ));
 }
 
@@ -48,7 +44,7 @@ export const createVideoPlayerCurrentTimeObservable = (player: IVideoPlayer): Ob
         subscriber.next(playerTime);
         lastPlayerTime = playerTime;
       }
-    }, 250);
+    }, 5);
 
     return {
       unsubscribe() {

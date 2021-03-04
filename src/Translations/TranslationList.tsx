@@ -15,20 +15,19 @@ const TranslationList = ({ translations, onRemove, onUpdate }: Props) => {
 
     return (
         <div>
-            <div className="flex">
-                <div className="w-25"><strong>Start</strong></div>
-                <div className="w-25"><strong>End</strong></div>
-                <div className="w-50"><strong>Subtitle</strong></div>
+            <div className="w-100 flex pv1">
+                <div className="w-20"><strong>Start</strong></div>
+                <div className="w-20"><strong>End</strong></div>
+                <div className="w-40"><strong>Subtitle</strong></div>
+                <div className="w-20"><strong>Actions</strong></div>
             </div>
             {
                 translations.map((t, index) => (
-                    <div className="translation-line flex" key={index}>
-                        <div className="flex w-100 pb2 mb1">
-                            <div className="w-25">{t.getStartTime() || '-'}</div>
-                            <div className="w-25">{t.getEndTime() || '-'}</div>
-                            <div className="w-50"><span className="pre">{t.getContent()}</span></div>
-                        </div>
-                        <div className="flex items-center">
+                    <div className="w-100 flex translation-line items-center" key={index}>
+                        <div className="w-20">{t.getStartTime() || '-'}</div>
+                        <div className="w-20">{t.getEndTime() || '-'}</div>
+                        <div className="w-40"><span className="pre">{t.getContent()}</span></div>
+                        <div className="w-20 flex">
                             <button onClick={() => handleResetTime(t)}>ResetStart</button>
                             <button onClick={() => handleResetTime(t, false)}>ResetEnd</button>
                             <button onClick={() => onRemove(t)}>Delete</button>

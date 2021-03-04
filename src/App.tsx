@@ -29,6 +29,8 @@ function App() {
     }
 
     const handleCreateTranslation = (content: string, splitType: string) => {
+        content = content.trim();
+
         if (splitType === SPLIT_CONTENT_TYPES.NONE) {
             setTranslations([...translations, new TranslationLine(content)]);
             return;
