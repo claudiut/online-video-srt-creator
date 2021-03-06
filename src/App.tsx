@@ -51,12 +51,12 @@ function App() {
     };
 
     return (
-        <div className="flex justify-center">
-            <div className="w-70">
+        <div className="flex justify-center h-100">
+            <div className="w-100 w-70-m flex flex-column">
                 <div>
                     <input type="text" placeholder="Video URL" className="w-100" onChange={handleUrlChange} />
                 </div>
-                <div className="flex">
+                <div className="flex h-100">
                     {
                         url
                         ?  (
@@ -69,14 +69,12 @@ function App() {
                             Please enter a video URL in the text field above
                         </div>
                     }
-                    <div className="w-100 pa2">
-                        <Translations
-                            translations={translations}
-                            onAddTranslation={handleCreateTranslation}
-                            onRemoveTranslation={handleRemoveTranslation}
-                            onUpdateTranslation={handleUpdateTranslation}
-                        />
-                    </div>
+                    <Translations
+                        translations={translations}
+                        onAddTranslation={handleCreateTranslation}
+                        onRemoveTranslation={handleRemoveTranslation}
+                        onUpdateTranslation={handleUpdateTranslation}
+                    />
                 </div>
             </div>
         </div>
