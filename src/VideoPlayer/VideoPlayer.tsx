@@ -1,6 +1,6 @@
 import React, { memo, useEffect } from 'react';
 import YTPlayer from 'yt-player';
-import { setPlayer } from '../Actions';
+import { setPlayer } from '../AppState/Actions';
 
 import YouTubePlayer from '../services/VideoPlayer/YoutubePlayer';
 

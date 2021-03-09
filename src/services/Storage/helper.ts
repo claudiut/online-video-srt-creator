@@ -1,5 +1,5 @@
-import { setTranslations } from "../../Actions";
-import { translations$, url$ } from "../BehaviourSubjects"
+import { setTranslations } from "../../AppState/Actions";
+import { translations$, url$ } from "../../AppState/Observables"
 import IStorage from "./IStorage";
 
 export const bindPersistentStorage = (storage: IStorage) => {

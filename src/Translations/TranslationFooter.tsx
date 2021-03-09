@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { setTranslations } from "../Actions";
+import { setTranslations } from "../AppState/Actions";
 import { splitLines, splitParagraphs, SPLIT_CONTENT_TYPES } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
 

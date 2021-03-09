@@ -5,9 +5,9 @@ import VideoPlayer from './VideoPlayer/VideoPlayer';
 import Translations from './Translations/Translations';
 import TranslationPreview from './TranslationPreview';
 import useKeyboardShortcutsEffect from './hooks/useKeyboardShortcutsEffect';
-import { previewedTranslation$, url$ } from './services/BehaviourSubjects';
+import { previewedTranslation$, url$ } from './AppState/Observables';
 import Subscribe from './Subscribe';
-import { setUrl } from './Actions';
+import { setUrl } from './AppState/Actions';
 
 // TODO: use DI to be able to easily mock services
 function App() {

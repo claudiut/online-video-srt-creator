@@ -1,4 +1,4 @@
-import { setTranslations } from "../Actions";
+import { setTranslations } from "../AppState/Actions";
 import TranslationLine from "../services/Translation/TranslationLine";
 import './Translations.scss';
 

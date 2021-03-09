@@ -1,9 +1,9 @@
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map, mergeAll } from 'rxjs/operators';
-import { getLatestTranslationForTime } from './helper';
+import { getLatestTranslationForTime } from '../services/helper';
 
-import TranslationLine from "./Translation/TranslationLine";
-import IVideoPlayer from "./VideoPlayer/IVideoPlayer";
+import TranslationLine from "../services/Translation/TranslationLine";
+import IVideoPlayer from "../services/VideoPlayer/IVideoPlayer";
 
 export const url$ = new BehaviorSubject<string>('');
 

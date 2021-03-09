@@ -1,5 +1,5 @@
 import React from "react";
-import { translations$ } from "../services/BehaviourSubjects";
+import { translations$ } from "../AppState/Observables";
 
 import Subscribe from "../Subscribe";
 import TranslationFooter from "./TranslationFooter";

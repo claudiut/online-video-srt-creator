@@ -2,9 +2,9 @@ import { useEffect } from "react";
 
 import { BYPASS_SHORTCUTS_CLASS } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
-import { player$, translations$ } from "../services/BehaviourSubjects";
+import { player$, translations$ } from "../AppState/Observables";
 import useObservedValue from "./useObservedValue";
-import { setTranslations } from "../Actions";
+import { setTranslations } from "../AppState/Actions";
 
 const shortcutBypassed = (event: KeyboardEvent) => {
   const { className } = (event.target as HTMLElement);
