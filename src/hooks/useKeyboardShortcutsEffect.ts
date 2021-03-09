@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 
-import IVideoPlayer from "../services/VideoPlayer/IVideoPlayer";
 import { BYPASS_SHORTCUTS_CLASS } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
+import { player$, translations$ } from "../services/BehaviourSubjects";
+import useObservedValue from "./useObservedValue";
+import { setTranslations } from "../Actions";
 
 const shortcutBypassed = (event: KeyboardEvent) => {
   const { className } = (event.target as HTMLElement);
@@ -37,14 +39,13 @@ const normalizeStartTimeBasedOnPrevious = (
 type ShortcutEvent = 'keydown' | 'click';
 type ShortcutHandler = (e: KeyboardEvent | MouseEvent) => void;
 
-const useKeyboardShortcutsEffect = (
-  player: IVideoPlayer | null,
-  translations: TranslationLine[],
-  setTranslations: (trs: TranslationLine[]) => void
-) => {
+const useKeyboardShortcutsEffect = () => {
+  const player = useObservedValue(player$);
+  const translations = useObservedValue(translations$) as TranslationLine[];
+
   useEffect(() => {
     if (!player) {
-    return;
+      return;
     }
 
     const listeners = {
@@ -118,7 +119,7 @@ const useKeyboardShortcutsEffect = (
           );
         })
       };
-  }, [player, translations, setTranslations]);
+  }, [player, translations]);
 }
 
 export default useKeyboardShortcutsEffect;

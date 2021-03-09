@@ -1,20 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { memo, useEffect } from 'react';
 import YTPlayer from 'yt-player';
+import { setPlayer } from '../Actions';
 
-import IVideoPlayer from '../services/VideoPlayer/IVideoPlayer';
 import YouTubePlayer from '../services/VideoPlayer/YoutubePlayer';
-
-type Props = {
-    url: string;
-    setPlayer: (player: IVideoPlayer) => void
-}
 
 const containerId = 'video-player';
 
-const VideoPlayer = ({ url, setPlayer }: Props) => {
+interface Props { url: string }
+
+const VideoPlayer = ({ url }: Props) => {
     useEffect(() => {
-        setPlayer(new YouTubePlayer(new YTPlayer(`#${containerId}`), url));
-    }, [url, setPlayer]);
+        const playerInstance = new YouTubePlayer(new YTPlayer(`#${containerId}`), url);
+        setPlayer(playerInstance);
+    });
     
     return (
         <div id="player-wrapper">
@@ -23,4 +21,4 @@ const VideoPlayer = ({ url, setPlayer }: Props) => {
     );
 };
 
-export default VideoPlayer;
+export default memo(VideoPlayer);

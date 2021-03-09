@@ -1,17 +1,30 @@
 import React, { useState } from "react";
+import { setTranslations } from "../Actions";
+import { splitLines, splitParagraphs, SPLIT_CONTENT_TYPES } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
 
 import TranslationLineSerializer from "../services/Translation/TranslationLineSerializer";
 import TranslationForm from "./TranslationForm";
 
-export type OnAddTranslation = (content: string, splitType: string) => void;
-
 interface Props {
     translations: TranslationLine[],
-    onAddTranslation: OnAddTranslation,
 }
 
-const TranslationFooter = ({ translations, onAddTranslation }: Props) => {
+const addTranslation = (content: string, splitType: string, translations: TranslationLine[]) => {
+    content = content.trim();
+
+    if (splitType === SPLIT_CONTENT_TYPES.NONE) {
+        setTranslations([...translations, new TranslationLine(content)])
+        return;
+    }
+
+    const splitFn = splitType === SPLIT_CONTENT_TYPES.LINE ? splitLines : splitParagraphs;
+
+    const trs = splitFn(content).map((trContent) => new TranslationLine(trContent));
+    setTranslations([...translations, ...trs]);
+};
+
+const TranslationFooter = ({ translations }: Props) => {
     const [showAddForm, setShowAddForm] = useState<boolean>(false);
 
     const handleClickAddTranslation = () => {
@@ -19,7 +32,7 @@ const TranslationFooter = ({ translations, onAddTranslation }: Props) => {
     };
 
     const handleSave = (content: string, splitType: string) => {
-        onAddTranslation(content, splitType);
+        addTranslation(content, splitType, translations);
         setShowAddForm(false);
     };
 

@@ -1,27 +1,25 @@
 import React from "react";
+import { translations$ } from "../services/BehaviourSubjects";
 
-import TranslationLine from "../services/Translation/TranslationLine";
-import TranslationFooter, { OnAddTranslation } from "./TranslationFooter";
+import Subscribe from "../Subscribe";
+import TranslationFooter from "./TranslationFooter";
 import TranslationHeader from "./TranslationHeader";
 import TranslationList from "./TranslationList";
 
-type Props = {
-    translations: TranslationLine[];
-    onAddTranslation: OnAddTranslation;
-    onRemoveTranslation: (t: TranslationLine) => void;
-    onUpdateTranslation: (t: TranslationLine) => void;
-}
-
-const Translations = ({ translations, onAddTranslation, onRemoveTranslation, onUpdateTranslation }: Props) => {
+const Translations = () => {
     return (
         <div className="flex flex-column w-100">
             <TranslationHeader />
-            <TranslationList
-                translations={translations}
-                onRemove={onRemoveTranslation}
-                onUpdate={onUpdateTranslation}
-            />
-            <TranslationFooter translations={translations} onAddTranslation={onAddTranslation} />
+            <Subscribe observable$={translations$}>
+                {
+                    (translations = []) => (
+                        <>
+                            <TranslationList translations={translations} />
+                            <TranslationFooter translations={translations} />
+                        </>
+                    )
+                }
+            </Subscribe>
         </div>
     )
 };

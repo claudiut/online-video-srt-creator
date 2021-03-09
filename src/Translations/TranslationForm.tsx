@@ -11,17 +11,13 @@ const TranslationForm = forwardRef(
         const [content, setContent] = useState<string>('');
         const [splitType, setSplitType] = useState<string>(SPLIT_CONTENT_TYPES.NONE);
 
-        const save = (content: string, type: string) => {
+        const handleSubmit = (event: FormEvent) => {
+            event.preventDefault();
             if (!content) {
                 return;
             }
-            onSave(content, type);
+            onSave(content, splitType);
             setContent('');
-        };
-
-        const handleSubmit = (event: FormEvent) => {
-            event.preventDefault();
-            save(content, splitType);
         }
 
         const handleSelectSplitType = (event: ChangeEvent<HTMLSelectElement>) => {

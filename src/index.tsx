@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { bindPersistentStorage } from './services/Storage/helper';
+import LocalStorage from './services/Storage/LocalStorage';
+
+bindPersistentStorage(new LocalStorage());
 
 ReactDOM.render(
   <React.StrictMode>
