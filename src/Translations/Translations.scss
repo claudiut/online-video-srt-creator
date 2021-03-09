@@ -1,9 +1,13 @@
-.translation-line {
-    &.selected {
-        background-color: #9acd32;
-    }
+#translations {
+    min-height: 100px;
 
-    &:hover {
-        background-color: #eaeaea;
+    .translation-line {
+        &.selected {
+            background-color: #9acd32;
+        }
+
+        &:hover {
+            background-color: #eaeaea;
+        }
     }
 }

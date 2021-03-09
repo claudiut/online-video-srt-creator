@@ -6,4 +6,4 @@ export const setTranslations = (translations: TranslationLine[]) => translations
 
 export const setUrl = (url: string) => url$.next(url);
 
-export const setPlayer = (player: IVideoPlayer) => player$.next(player);
+export const setPlayer = (player: IVideoPlayer|undefined) => player$.next(player);

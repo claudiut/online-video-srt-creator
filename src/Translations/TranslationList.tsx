@@ -19,7 +19,7 @@ const TranslationList = ({ translations }: Props) => {
     };
 
     return (
-        <div className="overflow-y-auto pa1">
+        <div id="translations" className="overflow-y-auto pa1">
             {
                 translations.map((t, index) => (
                     <div className="w-100 flex translation-line items-center" key={index}>
