@@ -1,5 +1,7 @@
 #translations {
-    min-height: 100px;
+    &.has-translations {
+        min-height: 100px;
+    }
 
     .translation-line {
         &.selected {
