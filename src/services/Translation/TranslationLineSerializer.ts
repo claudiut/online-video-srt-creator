@@ -1,3 +1,4 @@
+import { computeParsedToSeconds, removeLeftZeroPadding } from '../helper';
 import TranslationLine from './TranslationLine';
 import TranslationLineDto from './TranslationLineDto';
 
@@ -56,7 +57,37 @@ export default class TranslationLineSerializer {
       .join(LINE_SEP)
   }
 
-  // static parseSrt(srtContents: string): TranslationLine[] {
+  static parseSrt(srtContents: string): TranslationLine[] {
+    console.log("srtContents", srtContents);
+    const timeReg = '(\\d+):(\\d+):(\\d+),(\\d+)';
+    const regexp = new RegExp(`(\\d+)${NEWLINE_SEP}${timeReg}\\s-->\\s${timeReg}${NEWLINE_SEP}(.+)(${LINE_SEP})?`, 'g');
+    const match = srtContents.matchAll(regexp);
+  
+    const translations = [];
 
-  // }
+    for (const m of match) {
+      console.log(m);
+      const t = new TranslationLine(m[10]);
+
+      const startH = parseInt(removeLeftZeroPadding(m[2]));
+      const startM = parseInt(removeLeftZeroPadding(m[3]));
+      const startS = parseInt(removeLeftZeroPadding(m[4]));
+      const startMs = parseInt(removeLeftZeroPadding(m[5]));
+      console.log(startH,
+startM,
+startS,
+startMs);
+      t.setStartTime(computeParsedToSeconds(startH, startM, startS, startMs));
+
+      const endH = parseInt(removeLeftZeroPadding(m[6]));
+      const endM = parseInt(removeLeftZeroPadding(m[7]));
+      const endS = parseInt(removeLeftZeroPadding(m[8]));
+      const endMs = parseInt(removeLeftZeroPadding(m[9]));
+      t.setEndTime(computeParsedToSeconds(endH, endM, endS, endMs));
+
+      translations.push(t);
+    }
+
+    return translations;
+  }
 }

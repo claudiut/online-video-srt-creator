@@ -54,6 +54,18 @@ export const createVideoPlayerCurrentTimeObservable = (player: IVideoPlayer): Ob
   })
 );
 
+export const removeLeftZeroPadding = (string: string) => {
+  if (string[0] === '0' && string.length > 1) {
+    return /^[0]+$/.test(string) ? '0' : string.replace(/^[0]+/, '');
+  }
+
+  return string;
+};
+
+export const computeParsedToSeconds = (h: number, m: number, s: number, ms: number): number => {
+  return h * 3600 + m * 60 + s + ms / 1000;
+}
+
 export const BYPASS_SHORTCUTS_CLASS = 'bypass-global-shortcuts';
 
 export const SPLIT_CONTENT_TYPES = {

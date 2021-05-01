@@ -3,14 +3,16 @@ import TranslationLineDto from "../Translation/TranslationLineDto";
 import TranslationLineSerializer from "../Translation/TranslationLineSerializer";
 import IStorage from "./IStorage";
 
+const STORAGE_KEY = 'translation';
+
 export default class LocalStorage implements IStorage {
-  set(url: string, translations: TranslationLine[]): void {
+  set(translations: TranslationLine[]): void {
     const object = translations.map((t) => TranslationLineSerializer.toDto(t))
-    localStorage.setItem(encodeURI(url), JSON.stringify(object));
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(object));
   }
 
-  get(url: string): TranslationLine[] {
-    const json = localStorage.getItem(encodeURI(url)) || JSON.stringify([]);
+  get(): TranslationLine[] {
+    const json = sessionStorage.getItem(STORAGE_KEY) || JSON.stringify([]);
 
     return JSON.parse(json).map(
       (dto: TranslationLineDto) => TranslationLineSerializer.fromDto(dto)

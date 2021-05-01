@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { setTranslations } from "../AppState/Actions";
 import { splitLines, splitParagraphs, SPLIT_CONTENT_TYPES } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
@@ -49,6 +49,26 @@ const TranslationFooter = ({ translations }: Props) => {
         document.body.removeChild(elem);
     }
 
+    const handleImport = (event: ChangeEvent<HTMLInputElement>) => {
+        if (!event.target.files) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            if (!e.target) {
+                console.log('File is empty!', e.target);
+                return;
+            }
+
+            const importedTranslations = TranslationLineSerializer.parseSrt(e.target.result as string);
+            setTranslations(importedTranslations);
+        }
+        reader.onerror = function (evt) {
+            console.log('Error loading file', evt);
+        }
+        reader.readAsText(event.target.files[0], "UTF-8");
+    }
+
     return (
         <div>
             {showAddForm && (
@@ -72,8 +92,9 @@ const TranslationFooter = ({ translations }: Props) => {
                     <li>Press Enter to set the start/end time of translation to current video position</li>
                 </ol>
             </div>
-            <div className="tc">
-                {translations.length > 0 && <button onClick={handleDownload}>Download<br />⬇</button>}
+            <div className="tc flex">
+                Import SRT:&nbsp;<input type="file" onChange={handleImport} accept=".srt" multiple={false} />
+                <button disabled={!translations.length} onClick={handleDownload}>Download<br />⬇</button>
             </div>
         </div>
     )
