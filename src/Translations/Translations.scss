@@ -4,8 +4,12 @@
     }
 
     .translation-line {
-        &.selected {
+        &.previewing {
             background-color: #9acd32;
+        }
+
+        &.scheduled {
+            cursor: pointer;
         }
 
         &:hover {

@@ -41,6 +41,24 @@ export default class YouTubePlayer implements IVideoPlayer {
     this.player.seek(this.player.getCurrentTime() + 5);
   }
 
+  setCurrentTime(time: number) {
+    if (this.player.getState() !== 'cued') {
+      this.player.seek(time);
+      return;
+    }
+
+    // If the video has not been started yet but we seek, start it (to load), pause it and then seek
+    // otherise it will not seek
+    const subscription = this.currentTime$.subscribe((currentTime) => {
+      if (currentTime > 0) {
+        this.player.pause();
+        subscription.unsubscribe();
+        this.player.seek(time);
+      }
+    });
+    this.player.play();
+  }
+
   getCurrentTime(): number {
     return this.player.getCurrentTime();
   }

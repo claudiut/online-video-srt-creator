@@ -7,5 +7,6 @@ export default interface IVideoPlayer {
   seekPrevious: () => void;
   seekNext: () => void;
   getCurrentTime: () => number;
+  setCurrentTime: (time: number) => void;
   dispose: () => void;
 }
