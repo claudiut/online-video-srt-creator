@@ -1,7 +1,7 @@
 ![Translator Screenshot](./screenshot.png "Translator Screenshot")
 
 ### Online video SRT creator (Minimum Viable Product state)
-1. Enter your video url (currenly works for youtube)
+1. Enter your video url (currenly works for YouTube)
 2. Import your subtitles from a verses, lyrics, etc. (split them by line or paragraph)
 3. While the video is playing, press Enter to add timings for your subtitles
 4. Download your SRT file!
@@ -13,4 +13,4 @@
 - Be able to edit the subtitle
 - Insert new translations before/after another
 - Add abilty to offset timing for entire subtitle file
-- Prevent video frame focus or create separate controls for it
+- Fix document-out-of-focus issue when YouTube iframe gets focused
