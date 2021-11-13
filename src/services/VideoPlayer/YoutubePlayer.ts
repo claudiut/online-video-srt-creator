@@ -5,8 +5,8 @@ import { createVideoPlayerCurrentTimeObservable } from '../helper';
 import IVideoPlayer from './IVideoPlayer';
 
 const parseYoutubeIdFromUrl = (url: string): string => {
-  const match: RegExpMatchArray | null = url.match(/v=(\S+)/);
-  return match && match[1] ? match[1] : '';
+  const match = url.match(/\?v=([^&]+)/);
+  return match?.[1] ?? '';
 }
 
 export default class YouTubePlayer implements IVideoPlayer {

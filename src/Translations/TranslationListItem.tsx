@@ -46,9 +46,9 @@ const TranslationListItem = ({ translation, isCurrentlyPreviewed = false, player
                 <span className="pre">{translation.getContent()}</span>
             </div>
             <div className="w-third flex">
-                <button onClick={(e) => {e.stopPropagation(); handleResetTime();}}>ResetStart</button>
-                <button onClick={(e) => {e.stopPropagation(); handleResetTime(false);}}>ResetEnd</button>
-                <button onClick={(e) => {e.stopPropagation(); handleRemove();}}>Delete</button>
+                <button onClick={(e) => {e.stopPropagation(); handleResetTime(); document.body.focus();}}>ResetStart</button>
+                <button onClick={(e) => {e.stopPropagation(); handleResetTime(false); document.body.focus();}}>ResetEnd</button>
+                <button onClick={(e) => {e.stopPropagation(); handleRemove(); document.body.focus();}}>Delete</button>
             </div>
         </div>
     );
