@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/claudiut.github.io/online-video-srt-creator/static/css/main.47eac3d7.chunk.css",
-    "main.js": "/claudiut.github.io/online-video-srt-creator/static/js/main.644e8268.chunk.js",
-    "main.js.map": "/claudiut.github.io/online-video-srt-creator/static/js/main.644e8268.chunk.js.map",
-    "runtime-main.js": "/claudiut.github.io/online-video-srt-creator/static/js/runtime-main.0672e4d6.js",
-    "runtime-main.js.map": "/claudiut.github.io/online-video-srt-creator/static/js/runtime-main.0672e4d6.js.map",
-    "static/js/2.df37b8bb.chunk.js": "/claudiut.github.io/online-video-srt-creator/static/js/2.df37b8bb.chunk.js",
-    "static/js/2.df37b8bb.chunk.js.map": "/claudiut.github.io/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.map",
-    "static/js/3.73b67208.chunk.js": "/claudiut.github.io/online-video-srt-creator/static/js/3.73b67208.chunk.js",
-    "static/js/3.73b67208.chunk.js.map": "/claudiut.github.io/online-video-srt-creator/static/js/3.73b67208.chunk.js.map",
-    "index.html": "/claudiut.github.io/online-video-srt-creator/index.html",
-    "static/css/main.47eac3d7.chunk.css.map": "/claudiut.github.io/online-video-srt-creator/static/css/main.47eac3d7.chunk.css.map",
-    "static/js/2.df37b8bb.chunk.js.LICENSE.txt": "/claudiut.github.io/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.LICENSE.txt"
+    "main.css": "/online-video-srt-creator/static/css/main.47eac3d7.chunk.css",
+    "main.js": "/online-video-srt-creator/static/js/main.644e8268.chunk.js",
+    "main.js.map": "/online-video-srt-creator/static/js/main.644e8268.chunk.js.map",
+    "runtime-main.js": "/online-video-srt-creator/static/js/runtime-main.5fc54406.js",
+    "runtime-main.js.map": "/online-video-srt-creator/static/js/runtime-main.5fc54406.js.map",
+    "static/js/2.df37b8bb.chunk.js": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js",
+    "static/js/2.df37b8bb.chunk.js.map": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.map",
+    "static/js/3.73b67208.chunk.js": "/online-video-srt-creator/static/js/3.73b67208.chunk.js",
+    "static/js/3.73b67208.chunk.js.map": "/online-video-srt-creator/static/js/3.73b67208.chunk.js.map",
+    "index.html": "/online-video-srt-creator/index.html",
+    "static/css/main.47eac3d7.chunk.css.map": "/online-video-srt-creator/static/css/main.47eac3d7.chunk.css.map",
+    "static/js/2.df37b8bb.chunk.js.LICENSE.txt": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.0672e4d6.js",
+    "static/js/runtime-main.5fc54406.js",
     "static/js/2.df37b8bb.chunk.js",
     "static/css/main.47eac3d7.chunk.css",
     "static/js/main.644e8268.chunk.js"
