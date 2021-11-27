@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/static/css/main.47eac3d7.chunk.css",
-    "main.js": "/static/js/main.644e8268.chunk.js",
-    "main.js.map": "/static/js/main.644e8268.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.bcf137a8.js",
-    "runtime-main.js.map": "/static/js/runtime-main.bcf137a8.js.map",
-    "static/js/2.df37b8bb.chunk.js": "/static/js/2.df37b8bb.chunk.js",
-    "static/js/2.df37b8bb.chunk.js.map": "/static/js/2.df37b8bb.chunk.js.map",
-    "static/js/3.73b67208.chunk.js": "/static/js/3.73b67208.chunk.js",
-    "static/js/3.73b67208.chunk.js.map": "/static/js/3.73b67208.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.47eac3d7.chunk.css.map": "/static/css/main.47eac3d7.chunk.css.map",
-    "static/js/2.df37b8bb.chunk.js.LICENSE.txt": "/static/js/2.df37b8bb.chunk.js.LICENSE.txt"
+    "main.css": "/online-video-srt-creator/static/css/main.47eac3d7.chunk.css",
+    "main.js": "/online-video-srt-creator/static/js/main.644e8268.chunk.js",
+    "main.js.map": "/online-video-srt-creator/static/js/main.644e8268.chunk.js.map",
+    "runtime-main.js": "/online-video-srt-creator/static/js/runtime-main.5fc54406.js",
+    "runtime-main.js.map": "/online-video-srt-creator/static/js/runtime-main.5fc54406.js.map",
+    "static/js/2.df37b8bb.chunk.js": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js",
+    "static/js/2.df37b8bb.chunk.js.map": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.map",
+    "static/js/3.73b67208.chunk.js": "/online-video-srt-creator/static/js/3.73b67208.chunk.js",
+    "static/js/3.73b67208.chunk.js.map": "/online-video-srt-creator/static/js/3.73b67208.chunk.js.map",
+    "index.html": "/online-video-srt-creator/index.html",
+    "static/css/main.47eac3d7.chunk.css.map": "/online-video-srt-creator/static/css/main.47eac3d7.chunk.css.map",
+    "static/js/2.df37b8bb.chunk.js.LICENSE.txt": "/online-video-srt-creator/static/js/2.df37b8bb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.bcf137a8.js",
+    "static/js/runtime-main.5fc54406.js",
     "static/js/2.df37b8bb.chunk.js",
     "static/css/main.47eac3d7.chunk.css",
     "static/js/main.644e8268.chunk.js"

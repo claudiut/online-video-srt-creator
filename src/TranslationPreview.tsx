@@ -1,14 +1,21 @@
 import { ReactElement } from "react";
-import TranslationLine from "./services/Translation/TranslationLine";
+import { previewedTranslation$ } from "./AppState/Observables";
+import useObservedValue from "./hooks/useObservedValue";
 
-type Props = {
-    previewedTranslation: TranslationLine;
+const TranslationPreview = (): ReactElement => {
+    const previewedTr = useObservedValue(previewedTranslation$);
+
+    return (
+        <>
+            {
+                previewedTr && (
+                    <div className="tc pa2 f4">
+                        <span className="pre">{previewedTr.getContent()}</span>
+                    </div>
+                )
+            }
+        </>
+    );
 }
-
-const TranslationPreview = ({ previewedTranslation }: Props): ReactElement => (
-    <div className="tc pa2 f4">
-        <span className="pre">{previewedTranslation.getContent()}</span>
-    </div>
-);
 
 export default TranslationPreview;

@@ -1,57 +1,114 @@
 import TranslationLine from "../services/Translation/TranslationLine";
 import { removeTranslation, replaceTranslation } from "../AppState/Actions";
 import IVideoPlayer from "../services/VideoPlayer/IVideoPlayer";
+import { TableCell, TableRow, TableCellProps } from "@mui/material";
+import { getPaddedTimeComponents } from '../services/helper';
+import { forwardRef, MouseEvent, useState } from "react";
+import TranslationForm from "./TranslationForm";
 
-const formatTranslationTime = (time?: number) => time ? Math.trunc(time * 10000) / 10000 : '-'
+const formatTranslationTime = (time?: number): string => {
+    if (!time && typeof (time) !== 'number') {
+        return '-';
+    }
+
+    const [paddedH, paddedM, paddedS, paddedMs] = getPaddedTimeComponents(time);
+    return `${paddedH}:${paddedM}:${paddedS}.${paddedMs}`;
+}
+
+interface ItemColumnUiAdapterProps extends TableCellProps {
+    fullWidth?: boolean
+}
+export const ItemColumnUiAdapter = ({ fullWidth = false, ...rest }: ItemColumnUiAdapterProps) => {
+    const customProps = { colSpan: fullWidth ? 99 : undefined };
+    return <TableCell {...rest} {...customProps} />;
+};
+
+export const ItemUiAdapter = TableRow;
 
 interface Props {
-    translation: TranslationLine,
-    isCurrentlyPreviewed: boolean,
-    player?: IVideoPlayer
+    translation: TranslationLine;
+    translationIndex: number;
+    isCurrentlyPreviewed: boolean;
+    player?: IVideoPlayer;
 };
 
-const TranslationListItem = ({ translation, isCurrentlyPreviewed = false, player }: Props) => {
-    const startTime = translation.getStartTime();
+const TranslationListItem = forwardRef(
+    ({ translation, isCurrentlyPreviewed = false, player, translationIndex }: Props, ref) => {
+        const [showAddForm, setShowAddForm] = useState(false);
+        const handleCloseAddForm = setShowAddForm.bind(null, false);
 
-    const handleResetTime = (resetStart: boolean = true) => {
-        resetStart ? translation.removeStartTime() : translation.removeEndTime();
-        replaceTranslation(translation);
-    };
+        const startTime = translation.getStartTime();
 
-    const handleRemove = () => {
-        removeTranslation(translation);
-    };
+        const handleResetTime = (resetStart: boolean = true) => {
+            resetStart ? translation.removeStartTime() : translation.removeEndTime();
+            replaceTranslation(translation);
+        };
 
-    const handleClick = () => {
-        if(player && startTime) {
-            player.setCurrentTime(startTime);
-        }
-    };
+        const handleRemove = () => {
+            removeTranslation(translation);
+        };
 
-    return (
-        <div
-            onClick={handleClick}
-            className={
-                `w-100 flex translation-line items-center
-                ${isCurrentlyPreviewed ? 'previewing' : ''}
-                ${startTime ? 'scheduled' : ''}
-                `
+        const handleClick = () => {
+            if (player && startTime) {
+                player.setCurrentTime(startTime);
             }
-        >
-            <div className="w-third flex">
-                <div className="w-50">{formatTranslationTime(startTime)}</div>
-                <div className="w-50">{formatTranslationTime(translation.getEndTime())}</div>
-            </div>
-            <div className="w-third">
-                <span className="pre">{translation.getContent()}</span>
-            </div>
-            <div className="w-third flex">
-                <button onClick={(e) => {e.stopPropagation(); handleResetTime(); document.body.focus();}}>ResetStart</button>
-                <button onClick={(e) => {e.stopPropagation(); handleResetTime(false); document.body.focus();}}>ResetEnd</button>
-                <button onClick={(e) => {e.stopPropagation(); handleRemove(); document.body.focus();}}>Delete</button>
-            </div>
-        </div>
-    );
-};
+        };
+
+        const handleRowButtonClick = (handler: () => void) => (e: MouseEvent) => {
+            e.stopPropagation();
+            document.body.focus();
+            handler();
+        }
+
+        const rowProps = { onClick: handleClick };
+
+        return (
+            <>
+                <ItemUiAdapter
+                    className={
+                        `translation-line
+                    ${isCurrentlyPreviewed ? 'previewing' : ''}
+                    ${startTime ? 'scheduled' : ''}`
+                    }
+                >
+                    <ItemColumnUiAdapter {...rowProps} ref={ref}>
+                        <span className="pre">
+                            {translation.getContent()}
+                        </span>
+                    </ItemColumnUiAdapter>
+                    <ItemColumnUiAdapter {...rowProps}>
+                        {formatTranslationTime(startTime)}
+                    </ItemColumnUiAdapter>
+                    <ItemColumnUiAdapter {...rowProps}>
+                        {formatTranslationTime(translation.getEndTime())}
+                    </ItemColumnUiAdapter>
+                    <ItemColumnUiAdapter {...rowProps}>
+                        <button onClick={handleRowButtonClick(handleResetTime)}>
+                            ResetStart
+                        </button>
+                        <button onClick={handleRowButtonClick(() => handleResetTime(false))}>
+                            ResetEnd
+                        </button>
+                        <button onClick={handleRowButtonClick(() => setShowAddForm(true))}>
+                            Add after
+                        </button>
+                        <button onClick={handleRowButtonClick(handleRemove)}>
+                            Delete
+                        </button>
+                    </ItemColumnUiAdapter>
+                </ItemUiAdapter>
+                {showAddForm && <ItemUiAdapter>
+                    <ItemColumnUiAdapter fullWidth>
+                        <TranslationForm
+                            insertAfterIndex={translationIndex}
+                            onCancel={handleCloseAddForm}
+                            onSave={handleCloseAddForm}
+                        />
+                    </ItemColumnUiAdapter>
+                </ItemUiAdapter>}
+            </>
+        )
+    }
+);
 
 export default TranslationListItem;

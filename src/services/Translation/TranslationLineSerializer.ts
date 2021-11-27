@@ -1,4 +1,4 @@
-import { computeParsedToSeconds, removeLeftZeroPadding } from '../helper';
+import { computeParsedToSeconds, removeLeftZeroPadding, getPaddedTimeComponents } from '../helper';
 import TranslationLine from './TranslationLine';
 import TranslationLineDto from './TranslationLineDto';
 
@@ -24,22 +24,8 @@ export default class TranslationLineSerializer {
     return translation;
   }
 
-  static numberWithZeroPadding(value: number, paddingLength: number = 2): string {
-    return value.toString().padStart(paddingLength, '0');
-  }
-
   static secondsWithMsToSrtTimeString(value: number): string {
-    const oneHourInSec = 60 * 3600;
-    const hours = Math.floor(value / oneHourInSec);
-    const minutes = Math.floor((value - hours * oneHourInSec) / 60);
-    const seconds = Math.floor(value - hours * oneHourInSec - minutes * 60);
-    const miliseconds = Math.floor((value - hours * oneHourInSec - minutes * 60 - seconds) * 1000);
-
-    const paddedH = this.numberWithZeroPadding(hours);
-    const paddedM = this.numberWithZeroPadding(minutes);
-    const paddedS = this.numberWithZeroPadding(seconds);
-    const paddedMs = miliseconds ? miliseconds.toString() : '000';
-
+    const [paddedH, paddedM, paddedS, paddedMs] = getPaddedTimeComponents(value);
     return `${paddedH}:${paddedM}:${paddedS},${paddedMs}`;
   }
 
@@ -58,7 +44,6 @@ export default class TranslationLineSerializer {
   }
 
   static parseSrt(srtContents: string): TranslationLine[] {
-    console.log("srtContents", srtContents);
     const timeReg = '(\\d+):(\\d+):(\\d+),(\\d+)';
     const regexp = new RegExp(`(\\d+)${NEWLINE_SEP}${timeReg}\\s-->\\s${timeReg}${NEWLINE_SEP}(.+)(${LINE_SEP})?`, 'g');
     const match = srtContents.matchAll(regexp);
@@ -66,17 +51,12 @@ export default class TranslationLineSerializer {
     const translations = [];
 
     for (const m of match) {
-      console.log(m);
       const t = new TranslationLine(m[10]);
 
       const startH = parseInt(removeLeftZeroPadding(m[2]));
       const startM = parseInt(removeLeftZeroPadding(m[3]));
       const startS = parseInt(removeLeftZeroPadding(m[4]));
       const startMs = parseInt(removeLeftZeroPadding(m[5]));
-      console.log(startH,
-startM,
-startS,
-startMs);
       t.setStartTime(computeParsedToSeconds(startH, startM, startS, startMs));
 
       const endH = parseInt(removeLeftZeroPadding(m[6]));

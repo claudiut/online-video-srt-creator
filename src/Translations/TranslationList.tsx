@@ -1,30 +1,53 @@
+import { TableBody } from "@mui/material";
+import { MutableRefObject, RefObject, useEffect, useRef } from "react";
 import { player$, previewedTranslation$ } from "../AppState/Observables";
 import useObservedValue from "../hooks/useObservedValue";
+import { isElementInViewportOf } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
-import TranslationListItem from "./TranslationListItem";
+import IVideoPlayer from "../services/VideoPlayer/IVideoPlayer";
+import TranslationListItem, { ItemColumnUiAdapter, ItemUiAdapter } from "./TranslationListItem";
 import './Translations.scss';
 
 type Props = {
     translations: TranslationLine[];
+    previewingTranslationRef: MutableRefObject<HTMLElement | undefined>;
+    previewedTranslation?: TranslationLine;
+    player?: IVideoPlayer;
 }
 
-const TranslationList = ({ translations }: Props) => {
-    const previewedTranslation = useObservedValue(previewedTranslation$);
-    const player = useObservedValue(player$);
+const ContentUiAdapter = TableBody;
 
+const TranslationList = ({ translations, previewingTranslationRef: previewingRef, previewedTranslation, player }: Props) => {
     return (
-        <div id="translations" className={`overflow-y-auto pa1 ${translations.length > 0 ? 'has-translations' : ''}`}>
+        <ContentUiAdapter
+            id="translations"
+            className={`overflow-y-auto pa1 ${translations.length > 0 ? 'has-translations' : ''}`}
+        >
             {
-                translations.map((t, index) => (
-                    <TranslationListItem
-                        key={index}
-                        translation={t}
-                        isCurrentlyPreviewed={t === previewedTranslation}
-                        player={player}
-                    />
-                ))
+                translations.length
+                    ? translations.map((t, index) => {
+                        const isCurrentlyPreviewed = t === previewedTranslation;
+
+                        return (
+                            <TranslationListItem
+                                ref={isCurrentlyPreviewed ? previewingRef : undefined}
+                                key={index}
+                                translationIndex={index}
+                                translation={t}
+                                isCurrentlyPreviewed={isCurrentlyPreviewed}
+                                player={player}
+                            />
+                        );
+                    })
+                    : (
+                        <ItemUiAdapter>
+                            <ItemColumnUiAdapter fullWidth className="tc">
+                                There are no translations yet. Import them!
+                            </ItemColumnUiAdapter>
+                        </ItemUiAdapter>
+                    )
             }
-        </div>
+        </ContentUiAdapter>
     )
 }
 

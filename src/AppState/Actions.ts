@@ -15,6 +15,15 @@ export const removeTranslation = (translation: TranslationLine) => {
   setTranslations(translations.filter(tr => tr !== translation));
 };
 
+export const insertTranslations = (trsToInsert: TranslationLine[], afterIndex: number = -1) => {
+  const translations = translations$.getValue();
+  setTranslations([
+    ...translations.slice(0, afterIndex + 1),
+    ...trsToInsert,
+    ...translations.slice(afterIndex + 1)
+  ]);
+};
+
 export const setUrl = (url: string) => url$.next(url);
 
 export const setPlayer = (player: IVideoPlayer|undefined) => player$.next(player);

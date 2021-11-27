@@ -21,3 +21,16 @@
         }
     }
 }
+
+.dropzone.dragging {
+    background-color: #e0f1be;
+
+    &::before {
+        content: 'Drop files';
+        position: absolute;
+        top: 0;
+        left: 0;
+        text-align: center;
+        display: block;
+    }
+}

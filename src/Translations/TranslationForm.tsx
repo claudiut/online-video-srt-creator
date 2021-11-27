@@ -1,59 +1,77 @@
-import { ChangeEvent, FormEvent, forwardRef, Ref, useState } from "react";
-import { BYPASS_SHORTCUTS_CLASS, SPLIT_CONTENT_TYPES } from "../services/helper";
+import { Button, TextareaAutosize } from "@mui/material";
+import { Field, FieldInputProps, FieldProps, Form, Formik, FormikHelpers, FormikValues } from "formik";
+import { insertTranslations } from "../AppState/Actions";
+import { BYPASS_SHORTCUTS_CLASS, splitLines, splitParagraphs, SPLIT_CONTENT_TYPES } from "../services/helper";
+import TranslationLine from "../services/Translation/TranslationLine";
 
-type Props = {
-    onSave: (content: string, splitType: string) => void
-    onCancel: () => void
-}
+const addTranslation = (content: string, splitType: string, insertAfterIndex: number) => {
+    content = content.trim();
 
-const TranslationForm = forwardRef(
-    ({ onSave, onCancel }: Props, inputRef: Ref<HTMLTextAreaElement>) => {
-        const [content, setContent] = useState<string>('');
-        const [splitType, setSplitType] = useState<string>(SPLIT_CONTENT_TYPES.NONE);
+    if (splitType === SPLIT_CONTENT_TYPES.NONE) {
+        insertTranslations([new TranslationLine(content)], insertAfterIndex);
+        return;
+    }
 
-        const handleSubmit = (event: FormEvent) => {
-            event.preventDefault();
-            if (!content) {
-                return;
-            }
-            onSave(content, splitType);
-            setContent('');
-        }
+    const splitFn = splitType === SPLIT_CONTENT_TYPES.LINE ? splitLines : splitParagraphs;
 
-        const handleSelectSplitType = (event: ChangeEvent<HTMLSelectElement>) => {
-            setSplitType(event.target.value);
-        }
+    const trs = splitFn(content).map((trContent: string) => new TranslationLine(trContent));
+    console.log('trs', trs);
+    insertTranslations(trs, insertAfterIndex);
+};
 
-        return (
-            <form onSubmit={handleSubmit}>
+interface FormValues {
+    content: string;
+    splitType: string;
+};
+
+interface Props {
+    insertAfterIndex: number;
+    onSave?: () => void;
+    onCancel?: () => void;
+};
+
+const TranslationForm = ({ insertAfterIndex, onSave = () => null, onCancel = () => null }: Props) => {
+    const handleSubmit = async ({ content, splitType }: FormikValues, { resetForm }: FormikHelpers<FormValues>) => {
+        console.log(content, splitType);
+        addTranslation(content, splitType, insertAfterIndex);
+        resetForm();
+        onSave();
+    }
+
+    return (
+        <Formik<FormValues> initialValues={{ content: '', splitType: SPLIT_CONTENT_TYPES.NONE }} onSubmit={handleSubmit}>
+            <Form>
                 <div>
-                    <textarea
-                        rows={30}
-                        value={content}
+                    <Field
+                        name="content"
+                        as={TextareaAutosize}
                         className={`w-100 ${BYPASS_SHORTCUTS_CLASS}`}
-                        onChange={({ target: { value }} )=> setContent(value)}
-                        ref={inputRef}
-                    ></textarea>
+                        autoFocus
+                        placeholder="Translation content"
+                        aria-label="Translation line(s)"
+                        minRows={2}
+                    />
                 </div>
                 <div className="flex justify-between">
                     <div>
-                        <button type="reset" onClick={onCancel}>Cancel</button>
+                        <Button type="reset" onClick={onCancel}>Cancel</Button>
                     </div>
                     <div>
                         Split by
-                        <select value={splitType} onChange={handleSelectSplitType}>
-                        {
-                            Object.values(SPLIT_CONTENT_TYPES).map(v => (
-                                <option key={v} value={v}>{v}</option>
-                            ))
-                        }
-                        </select>
-                        <button type="submit">Save</button>
+                        <Field as="select" name="splitType">
+                            {
+                                Object.values(SPLIT_CONTENT_TYPES).map(v => (
+                                    <option key={v} value={v}>{v}</option>
+                                ))
+                            }
+                        </Field>
+                        <Button type="submit">Save</Button>
                     </div>
                 </div>
-            </form>
-        );
-    }
-)
+            </Form>
+        </Formik>
+    );
+}
+
 
 export default TranslationForm;

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { BYPASS_SHORTCUTS_CLASS } from "../services/helper";
+import { BYPASS_SHORTCUTS_CLASS, sortTranslationsByStartTime } from "../services/helper";
 import TranslationLine from "../services/Translation/TranslationLine";
 import { player$, translations$ } from "../AppState/Observables";
 import useObservedValue from "./useObservedValue";
@@ -41,7 +41,7 @@ type ShortcutHandler = (e: KeyboardEvent | MouseEvent) => void;
 
 const useKeyboardShortcutsEffect = () => {
   const player = useObservedValue(player$);
-  const translations = useObservedValue(translations$) as TranslationLine[];
+  let translations = useObservedValue(translations$) as TranslationLine[];
 
   useEffect(() => {
     if (!player) {
@@ -78,23 +78,27 @@ const useKeyboardShortcutsEffect = () => {
         },
         enter: {
           handler: (event: KeyboardEvent) => {
+            let translationList = translations.slice(0);
+
             if (!shortcutBypassed(event) && event.key === 'Enter') {
               const playerCurrentTime = player.getCurrentTime();
               event.preventDefault();
 
-              const firstUntimedIndex = firstUntimedTranslationIndex(translations);
+              const firstUntimedIndex = firstUntimedTranslationIndex(translationList);
               if (firstUntimedIndex === -1) {
                 return;
               }
-              const firstUntimed = translations[firstUntimedIndex];
+              const firstUntimed = translationList[firstUntimedIndex];
               if (firstUntimed.getStartTime() === undefined) {
                 firstUntimed.setStartTime(playerCurrentTime);
-                normalizeStartTimeBasedOnPrevious(translations, firstUntimedIndex);
+                translationList = sortTranslationsByStartTime(translationList);
+                const newIndex = translationList.findIndex(t => t === firstUntimed);
+                normalizeStartTimeBasedOnPrevious(translationList, newIndex);
               } else if (firstUntimed.getEndTime() === undefined) {
                 firstUntimed.setEndTime(playerCurrentTime);
               }
 
-              setTranslations([...translations])
+              setTranslations([...translationList])
             }
           },
           type: 'keydown',
