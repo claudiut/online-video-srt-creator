@@ -1,10 +1,8 @@
 import { TableBody } from "@mui/material";
-import { MutableRefObject, RefObject, useEffect, useRef } from "react";
-import { player$, previewedTranslation$ } from "../AppState/Observables";
-import useObservedValue from "../hooks/useObservedValue";
-import { isElementInViewportOf } from "../services/helper";
+import { MutableRefObject } from "react";
 import TranslationLine from "../services/Translation/TranslationLine";
 import IVideoPlayer from "../services/VideoPlayer/IVideoPlayer";
+import TranslationForm from "./TranslationForm";
 import TranslationListItem, { ItemColumnUiAdapter, ItemUiAdapter } from "./TranslationListItem";
 import './Translations.scss';
 
@@ -41,12 +39,18 @@ const TranslationList = ({ translations, previewingTranslationRef: previewingRef
                     })
                     : (
                         <ItemUiAdapter>
-                            <ItemColumnUiAdapter fullWidth className="tc">
-                                There are no translations yet. Import them!
+                            <ItemColumnUiAdapter fullWidth>
+                                <div className="tc">There are no translations yet. Import them or add a new one!</div>
                             </ItemColumnUiAdapter>
                         </ItemUiAdapter>
                     )
             }
+
+            <ItemUiAdapter>
+                <ItemColumnUiAdapter fullWidth>
+                    <TranslationForm insertAfterIndex={translations.length - 1} />
+                </ItemColumnUiAdapter>
+            </ItemUiAdapter>
         </ContentUiAdapter>
     )
 }

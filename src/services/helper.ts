@@ -36,12 +36,12 @@ export const getPaddedTimeComponents = (timeInSeconds: number): string[] => {
     const hours = Math.floor(timeInSeconds / oneHourInSec);
     const minutes = Math.floor((timeInSeconds - hours * oneHourInSec) / 60);
     const seconds = Math.floor(timeInSeconds - hours * oneHourInSec - minutes * 60);
-    const miliseconds = Math.floor((timeInSeconds - hours * oneHourInSec - minutes * 60 - seconds) * 1000);
+    const miliseconds = Math.round((timeInSeconds - hours * oneHourInSec - minutes * 60 - seconds) * 1000);
 
     const paddedH = numberWithZeroPadding(hours);
     const paddedM = numberWithZeroPadding(minutes);
     const paddedS = numberWithZeroPadding(seconds);
-    const ms = miliseconds ? miliseconds.toString() : '000';
+    const ms = miliseconds ? miliseconds.toString().padEnd(3, '0') : '000';
 
     return [paddedH, paddedM, paddedS, ms];
 }

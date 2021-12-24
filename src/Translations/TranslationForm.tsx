@@ -15,7 +15,6 @@ const addTranslation = (content: string, splitType: string, insertAfterIndex: nu
     const splitFn = splitType === SPLIT_CONTENT_TYPES.LINE ? splitLines : splitParagraphs;
 
     const trs = splitFn(content).map((trContent: string) => new TranslationLine(trContent));
-    console.log('trs', trs);
     insertTranslations(trs, insertAfterIndex);
 };
 
@@ -32,14 +31,13 @@ interface Props {
 
 const TranslationForm = ({ insertAfterIndex, onSave = () => null, onCancel = () => null }: Props) => {
     const handleSubmit = async ({ content, splitType }: FormikValues, { resetForm }: FormikHelpers<FormValues>) => {
-        console.log(content, splitType);
         addTranslation(content, splitType, insertAfterIndex);
         resetForm();
         onSave();
     }
 
     return (
-        <Formik<FormValues> initialValues={{ content: '', splitType: SPLIT_CONTENT_TYPES.NONE }} onSubmit={handleSubmit}>
+        <Formik<FormValues> initialValues={{ content: '', splitType: SPLIT_CONTENT_TYPES.LINE }} onSubmit={handleSubmit}>
             <Form>
                 <div>
                     <Field

@@ -74,6 +74,7 @@ const Translations = () => {
             onDragLeave={unhighlightUploadZone}
             onDropAccepted={unhighlightUploadZone}
             noClick
+            noKeyboard
         >
             {({ getRootProps, getInputProps }) => (
                 <div {...getRootProps()} className={`flex flex-column w-100 dropzone ${dragging ? 'dragging' : ''}`}>

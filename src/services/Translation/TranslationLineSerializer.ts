@@ -29,13 +29,13 @@ export default class TranslationLineSerializer {
     return `${paddedH}:${paddedM}:${paddedS},${paddedMs}`;
   }
 
-  static toSrt(translations: TranslationLine[]): string {
+  static toSrt(translations: TranslationLine[], offset: number = 0): string {
     return translations
       .filter(t => t.isTimed())
       .map((t, index) => {
         const parts = [
           `${index + 1}`,
-          `${this.secondsWithMsToSrtTimeString(t.getStartTime() as number)} --> ${this.secondsWithMsToSrtTimeString(t.getEndTime() as number)}`,
+          `${this.secondsWithMsToSrtTimeString(t.getStartTime() as number + offset)} --> ${this.secondsWithMsToSrtTimeString(t.getEndTime() as number + offset)}`,
           t.getContent()
         ];
         return parts.join(NEWLINE_SEP);

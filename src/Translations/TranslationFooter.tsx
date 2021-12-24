@@ -1,4 +1,4 @@
-import { Button, Stack } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import PublishIcon from '@mui/icons-material/Publish';
 import DownloadIcon from '@mui/icons-material/Download';
 import React, { ChangeEvent, useState } from "react";
@@ -15,6 +15,7 @@ interface Props {
 
 const TranslationFooter = ({ translations }: Props) => {
     const [showAddForm, setShowAddForm] = useState<boolean>(false);
+    const [downloadOffset, setDownloadOffset] = useState('0');
 
     const handleClickAddTranslation = () => {
         setShowAddForm(!showAddForm);
@@ -27,7 +28,7 @@ const TranslationFooter = ({ translations }: Props) => {
 
     const handleDownload = () => {
         const elem = document.createElement('a');
-        const srt = TranslationLineSerializer.toSrt(translations);
+        const srt = TranslationLineSerializer.toSrt(translations, parseFloat(downloadOffset));
         elem.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(srt));
         const filename = `${translations[0].getContent().split('\n')[0]}.srt`;
         elem.setAttribute('download', filename);
